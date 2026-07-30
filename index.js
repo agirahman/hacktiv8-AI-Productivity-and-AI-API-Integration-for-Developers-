@@ -2,13 +2,51 @@ import "dotenv/config";
 import express from "express";
 import multer from "multer";
 import fs from "fs/promises";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import { GoogleGenAI } from "@google/genai";
 
 const app = express();
-app.use(express.json());
 const upload = multer();
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
+app.post('/api/chat', async (req, res) => {
+    const { conversation } = req.body;
+
+    try {
+        if (!Array.isArray(conversation)) throw new Error("Message must be an array!");
+
+        const contents = conversation.map(({ role, text}) => ({
+            role,
+            parts: [{ text }]
+        }));
+
+        const response = await ai.models.generateContent({
+            model: model,
+            contents,
+            config: {
+                temperature: 0.8,
+                systemInstructions: "Kamu adalah asisten riset dan konten kreator. Bantu pengguna dalam dua tahap: (1) Riset — rangkum dokumen, transkrip audio, analisis gambar referensi. (2) Produksi konten — susun caption, script, atau draf berdasarkan hasil riset. Gunakan bahasa Indonesia. Gaya bahasa dan platform target bisa disesuaikan dengan permintaan pengguna."
+            },
+        })
+
+        res.status(200).json({ result: response.text})
+    } catch (e) {
+        res.status(500).json({ message: e.message})
+    }
+})
 
 app.post("/generate-text", async (req, res) => {
   const { prompt } = req.body;
@@ -84,10 +122,6 @@ app.post('/generate-from-audio', upload.single('audio'), async (req, res) => {
         res.status(500).json({ message: e.message });
     }
 })
-
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
 
 const PORT = 3000;
 app.listen(PORT, () => {
