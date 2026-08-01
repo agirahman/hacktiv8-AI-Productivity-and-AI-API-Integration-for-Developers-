@@ -19,6 +19,8 @@
   --toggle-icon: #2d3436;
   --pattern-color: rgba(0,0,0,0.04);
   --sidebar-width: 260px;
+  --user-bubble: #6c5ce7;
+  --user-bubble-text: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -35,6 +37,8 @@
   --toggle-icon: #e0e0e0;
   --pattern-color: rgba(255,255,255,0.04);
   --sidebar-width: 260px;
+  --user-bubble: #a29bfe;
+  --user-bubble-text: #2d3436;
 }
 
 .hidden {
@@ -356,8 +360,8 @@ body {
 
 .message.user {
   align-self: flex-end;
-  background: var(--bg);
-  color: var(--text-primary);
+  background: var(--user-bubble);
+  color: var(--user-bubble-text);
   box-shadow:
     6px 6px 14px var(--shadow-dark),
     -6px -6px 14px var(--shadow-light);
