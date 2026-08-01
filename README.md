@@ -1,11 +1,16 @@
 # 🤖 Asisten Riset & Konten Kreator (Gemini Flash API)
 
-Sebuah **chatbot asisten riset dan konten kreator** berbasis web yang dibangun di atas **Google Gemini API** (model `gemini-2.5-flash`). Aplikasi ini membantu pengguna dalam **dua tahap utama**:
+Sebuah **chatbot asisten riset dan konten kreator** berbasis web yang dibangun di atas **Google Gemini API** (model `gemma-4-26b-a4b-it`). Aplikasi ini membantu pengguna dalam **dua tahap utama**:
 
 1. **Riset** — merangkum dokumen, mentranskrip audio wawancara/ide, dan menganalisis gambar referensi.
 2. **Produksi Konten** — menyusun caption, script, atau draf konten berdasarkan hasil riset, dengan gaya bahasa yang bisa disesuaikan (casual/profesional/lucu) dan platform target (IG/TikTok/YouTube).
 
 Riwayat percakapan dijaga per sesi sehingga konteks dari riset hingga konten jadi tetap utuh dalam satu alur.
+
+---
+
+## Demo
+**https://bot-xi-five-61.vercel.app/**
 
 ---
 
@@ -92,7 +97,7 @@ gemini-flash-api/
 | --- | --- |
 | **Node.js + Express 5** | Server & REST API |
 | **@google/genai** (GoogleGenAI SDK) | Klien resmi Google Gemini API |
-| **Gemini 2.5 Flash** | Model AI multimodal (teks, gambar, dokumen, audio) |
+| **gemma-4-26b-a4b-it** | Model AI multimodal (teks, gambar, dan dokumen) |
 | **multer** | Middleware upload file (multipart/form-data) |
 | **dotenv** | Membaca konfigurasi dari `.env` |
 | **cors** | Mengizinkan permintaan lintas origin |
@@ -125,7 +130,7 @@ gemini-flash-api/
 3. **Buat file `.env`** di root proyek:
    ```env
    GEMINI_API_KEY=your_gemini_api_key_here
-   GEMINI_MODEL=gemini-2.5-flash
+   GEMINI_MODEL=gemma-4-26b-a4b-it
    ```
    > `GEMINI_MODEL` bersifat opsional — jika tidak diisi, default ke `gemini-2.5-flash`.
 
